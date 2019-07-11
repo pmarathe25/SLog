@@ -10,3 +10,7 @@ STEST(LoggingInfoDefaultSeverity) {
 STEST(LoggingSuppressedByDefault) {
     LOG_DEBUG() << "This is a test logging message that SHOULD NOT DISPLAY" << std::endl;
 }
+
+int main(int argc, const char* argv[]) {
+    return static_cast<int>(RUN_STESTS(argc, argv));
+}

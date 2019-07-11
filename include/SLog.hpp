@@ -34,39 +34,25 @@ namespace Stealth::Log {
         CRITICAL = 5,
     };
 
-    class Logger : public std::ostream {
+    class Logger {
     public:
-        Logger() : mStream{&std::cout} {
-            const char* minSev = std::getenv("SLOG_V");
-            mMinLevel = minSev ? Severity{std::atoi(minSev)} : Severity::INFO;
-        }
-
-        void setStream(std::ostream& stream) { mStream = &stream; }
-        std::ostream& getStream() { return *mStream; }
-
-        Logger& severity(Severity level) { mCurrentLevel = level; return *this; }
+        Logger();
+        Logger& severity(Severity level);
+        Logger& operator<<(std::ostream&(*f)(std::ostream&));
 
         template <typename T>
         Logger& operator<<(T&& t)
         {
             if (mCurrentLevel >= mMinLevel) {
-                this->getStream() << std::forward<T&&>(t);
-            }
-            return *this;
-        }
-
-        // For handling std::endl
-        Logger& operator<<(std::ostream&(*f)(std::ostream&))
-        {
-            if (mCurrentLevel >= mMinLevel) {
-                this->getStream() << f;
+                std::cout << std::forward<T&&>(t);
             }
             return *this;
         }
     private:
-        std::ostream* mStream;
         Severity mCurrentLevel, mMinLevel;
-    } static gLogger;
+    };
+
+    extern Logger gLogger;
 } // Stealth::Log
 
 #define LOG(SEVERITY) Stealth::Log::gLogger.severity(static_cast<Stealth::Log::Severity>(SEVERITY)) << "[" << __FILE__ << ":" << __LINE__ << "] "
