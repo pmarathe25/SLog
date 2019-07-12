@@ -1,13 +1,14 @@
 #include <SLog.hpp>
 
 namespace Stealth::Log {
-    Logger::Logger() {
-            const char* minSev = std::getenv("SLOG_V");
-            mMinLevel = minSev ? Severity{std::atoi(minSev)} : Severity::INFO;
-        }
+    Logger::Logger() : mCurrentLevel{Severity::INFO}, mMinLevel{Severity::INFO} {
+        const char* minSev = std::getenv("SLOG_V");
+        mMinLevel = minSev ? Severity{std::atoi(minSev)} : Severity::INFO;
+    }
 
     Logger& Logger::severity(Severity level) {
-        mCurrentLevel = level; return *this;
+        mCurrentLevel = level;
+        return *this;
     }
 
     // For handling std::endl

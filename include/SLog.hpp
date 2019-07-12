@@ -51,11 +51,28 @@ namespace Stealth::Log {
     private:
         Severity mCurrentLevel, mMinLevel;
     };
-
     extern Logger gLogger;
+
+    // Logs to oblivion
+    class NullLogger {
+    public:
+        NullLogger& operator<<(std::ostream&(*f)(std::ostream&)) { return *this; }
+
+        template <typename T>
+        NullLogger& operator<<(T&& t) { return *this; }
+    };
+
+    namespace {
+        NullLogger gNullLogger{};
+    } // anonymous
 } // Stealth::Log
 
+// Logging is only enabled for debug builds by default.
+#ifdef S_DEBUG
 #define LOG(SEVERITY) Stealth::Log::gLogger.severity(static_cast<Stealth::Log::Severity>(SEVERITY)) << "[" << __FILE__ << ":" << __LINE__ << "] "
+#else
+#define LOG(SEVERITY) Stealth::Log::gNullLogger
+#endif
 
 #define LOG_VERBOSE() LOG(Stealth::Log::Severity::VERBOSE)
 #define LOG_DEBUG() LOG(Stealth::Log::Severity::DEBUG)
