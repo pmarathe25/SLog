@@ -1,12 +1,15 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 #ifndef DISABLE_SLOG_STREAM_OVERLOADS
 template <typename T, typename O>
 std::ostream& operator<<(std::ostream& os, const std::pair<T, O>& pair) {
     return os << "{" << pair.first << ", " << pair.second << "}";
 }
+
+std::ostream& operator<<(std::ostream& os, const std::type_info& info);
 
 template <typename T,
     // Enable for all containers

@@ -4,7 +4,7 @@ import glob
 import os
 project = sbuildr.Project()
 
-libslog = project.library("slog", sources=["Logger.cpp"])
+libslog = project.library("slog", sources=glob.glob("src/*.cpp"))
 project.install(libslog, "/usr/local/lib")
 project.install("SLog.hpp", "/usr/local/include/Stealth")
 
