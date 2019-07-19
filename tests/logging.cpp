@@ -1,7 +1,7 @@
+#include "SLog/include/SLog.hpp"
+
 #include <Stealth/STest.hpp>
 #include <iostream>
-
-#include "SLog.hpp"
 
 STEST(LoggingInfoDefaultSeverity) {
     LOG_INFO() << "This is a test logging message" << std::endl;

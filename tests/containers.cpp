@@ -1,4 +1,6 @@
 // Test various containers in the standard library.
+#include "SLog/include/SLog.hpp"
+
 #include <Stealth/STest.hpp>
 #include <sstream>
 #include <vector>
@@ -6,8 +8,6 @@
 #include <unordered_map>
 #include <set>
 #include <unordered_set>
-
-#include "SLog.hpp"
 
 class StreamFixture {
 protected:
