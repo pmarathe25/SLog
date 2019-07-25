@@ -4,11 +4,11 @@
 #include <iostream>
 
 STEST(LoggingInfoDefaultSeverity) {
-    LOG_INFO() << "This is a test logging message" << std::endl;
+    LOG_INFO("This is a test logging message" << std::endl);
 }
 
 STEST(LoggingSuppressedByDefault) {
-    LOG_DEBUG() << "This is a test logging message that SHOULD NOT DISPLAY" << std::endl;
+    LOG_DEBUG("This is a test logging message that SHOULD NOT DISPLAY" << std::endl);
 }
 
 int main(int argc, const char* argv[]) {
