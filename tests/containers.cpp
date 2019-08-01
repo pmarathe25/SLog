@@ -31,6 +31,4 @@ STEST_F(StreamFixture, MapLog) {
     EXPECT_EQ(ss.str(), "{{0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}}");
 }
 
-int main(int argc, const char* argv[]) {
-    return static_cast<int>(RUN_STESTS(argc, argv));
-}
+STEST_MAIN();

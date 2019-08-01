@@ -1,12 +1,10 @@
-#ifndef SLOG_HPP
-#define SLOG_HPP
+#ifndef S_LOG_HPP
+#define S_LOG_HPP
 
-#include <iostream>
-#include <string>
+#ifndef DISABLE_S_LOG_STREAM_OVERLOADS
+#include <ostream>
 #include <typeinfo>
-#include <sstream>
 
-#ifndef DISABLE_SLOG_STREAM_OVERLOADS
 template <typename T, typename O>
 constexpr std::ostream& operator<<(std::ostream& os, const std::pair<T, O>& pair) {
     return os << "{" << pair.first << ", " << pair.second << "}";
@@ -34,10 +32,21 @@ constexpr std::ostream& operator<<(std::ostream& os, const T& container) {
 
 // Logging is only enabled for debug builds by default.
 #ifdef S_DEBUG
-#define ENABLE_SLOG
+#define ENABLE_S_LOG
 #endif
 
-#ifdef ENABLE_SLOG
+#ifdef S_DEBUG
+#include <cassert>
+#define S_ASSERT(STATEMENT) assert(STATEMENT)
+#else
+#define S_ASSERT(STATEMENT)
+#endif
+
+#ifdef ENABLE_S_LOG
+#include <iostream>
+#include <string>
+#include <sstream>
+
 namespace Stealth::Log {
     enum class Severity : int {
         VERBOSE = 0,
@@ -51,7 +60,7 @@ namespace Stealth::Log {
     class Logger {
     public:
         Logger() {
-            const char* minSev = std::getenv("SLOG_V");
+            const char* minSev = std::getenv("S_LOG_V");
             mMinSeverity = minSev ? Severity{std::atoi(minSev)} : Severity::INFO;
         }
 
@@ -67,22 +76,22 @@ namespace Stealth::Log {
     const Logger gLogger{};
 } // Stealth::Log
 
-#define LOG_RAW(SEVERITY, MESSAGE) { \
+#define S_LOG_RAW(SEVERITY, MESSAGE) { \
     std::stringstream __slog_ss{}; \
     __slog_ss << MESSAGE; \
     Stealth::Log::gLogger.log(static_cast<Stealth::Log::Severity>(SEVERITY), __slog_ss.str()); \
 }
 #else
-#define LOG_RAW(SEVERITY, MESSAGE)
-#endif // #ifdef S_DEBUG
+#define S_LOG_RAW(SEVERITY, MESSAGE)
+#endif // #ifdef ENABLE_S_LOG
 
-#define LOG(SEVERITY, MESSAGE) LOG_RAW(SEVERITY, "[" << __FILE__ << ":" << __LINE__ << "] " << MESSAGE)
+#define S_LOG(SEVERITY, MESSAGE) S_LOG_RAW(SEVERITY, "[" << __FILE__ << ":" << __LINE__ << "] " << MESSAGE)
 
-#define LOG_VERBOSE(MESSAGE) LOG(Stealth::Log::Severity::VERBOSE, MESSAGE)
-#define LOG_DEBUG(MESSAGE) LOG(Stealth::Log::Severity::DEBUG, MESSAGE)
-#define LOG_INFO(MESSAGE) LOG(Stealth::Log::Severity::INFO, MESSAGE)
-#define LOG_WARNING(MESSAGE) LOG(Stealth::Log::Severity::WARNING, MESSAGE)
-#define LOG_ERROR(MESSAGE) LOG(Stealth::Log::Severity::ERROR, MESSAGE)
-#define LOG_CRITICAL(MESSAGE) LOG(Stealth::Log::Severity::CRITICAL, MESSAGE)
+#define S_LOG_VERBOSE(MESSAGE) S_LOG(Stealth::Log::Severity::VERBOSE, MESSAGE)
+#define S_LOG_DEBUG(MESSAGE) S_LOG(Stealth::Log::Severity::DEBUG, MESSAGE)
+#define S_LOG_INFO(MESSAGE) S_LOG(Stealth::Log::Severity::INFO, MESSAGE)
+#define S_LOG_WARNING(MESSAGE) S_LOG(Stealth::Log::Severity::WARNING, MESSAGE)
+#define S_LOG_ERROR(MESSAGE) S_LOG(Stealth::Log::Severity::ERROR, MESSAGE)
+#define S_LOG_CRITICAL(MESSAGE) S_LOG(Stealth::Log::Severity::CRITICAL, MESSAGE)
 
 #endif // include guard

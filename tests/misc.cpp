@@ -26,6 +26,4 @@ STEST_F(StreamFixture, PairDifferentTypes) {
     EXPECT_EQ(ss.str(), "{0, 1}");
 }
 
-int main(int argc, const char* argv[]) {
-    return static_cast<int>(RUN_STESTS(argc, argv));
-}
+STEST_MAIN();
