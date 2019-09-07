@@ -1,6 +1,9 @@
 # STest Changelog
 Dates are in YYYY-MM-DD format.
 
+## v0.2.1 (2019-09-07)
+- Updates build system
+
 ## v0.2.0 (2019-07-31)
 - Headers are no longer included when logging components are disabled.
 - All macros are now prefixed with `S_`
