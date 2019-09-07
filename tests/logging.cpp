@@ -1,6 +1,6 @@
 #include "SLog/include/SLog.hpp"
 
-#include <Stealth/STest.hpp>
+#include <STest.hpp>
 #include <iostream>
 
 STEST(LoggingInfoDefaultSeverity) {

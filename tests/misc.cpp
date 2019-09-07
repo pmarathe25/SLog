@@ -1,7 +1,7 @@
 // Tests the various operator<< overloads provided by SLog.
 #include "SLog/include/SLog.hpp"
 
-#include <Stealth/STest.hpp>
+#include <STest.hpp>
 #include <sstream>
 #include <utility>
 

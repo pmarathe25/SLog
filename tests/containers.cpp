@@ -1,7 +1,7 @@
 // Test various containers in the standard library.
 #include "SLog/include/SLog.hpp"
 
-#include <Stealth/STest.hpp>
+#include <STest.hpp>
 #include <sstream>
 #include <vector>
 #include <map>
